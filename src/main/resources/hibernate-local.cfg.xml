@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings for local development -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/game</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">postgres</property>
+
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <!-- HikariCP settings -->
+        <property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
+        <property name="hibernate.hikari.maximumPoolSize">20</property>
+        <property name="hibernate.hikari.minimumIdle">5</property>
+        <property name="hibernate.hikari.connectionTimeout">30000</property>
+        <property name="hibernate.hikari.idleTimeout">600000</property>
+        <property name="hibernate.hikari.maxLifetime">1800000</property>
+
+        <!-- Other Hibernate settings -->
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">none</property>
+        <property name="hibernate.jdbc.batch_size">20</property>
+
+        <!-- Second-level cache settings -->
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_query_cache">true</property>
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.jcache.JCacheRegionFactory</property>
+        <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property>
+
+        <!-- Annotated entity classes -->
+        <mapping class="com.javarush.lepeshinskij.entity.User"/>
+        <mapping class="com.javarush.lepeshinskij.entity.Quest"/>
+        <mapping class="com.javarush.lepeshinskij.entity.QuestStage"/>
+        <mapping class="com.javarush.lepeshinskij.entity.QuestStageOption"/>
+        <mapping class="com.javarush.lepeshinskij.entity.UserQuestProgress"/>
+        <mapping class="com.javarush.lepeshinskij.entity.SessionHistory"/>
+        <mapping class="com.javarush.lepeshinskij.entity.Game"/>
+        <mapping class="com.javarush.lepeshinskij.entity.UserStatistics"/>
+
+    </session-factory>
+</hibernate-configuration>

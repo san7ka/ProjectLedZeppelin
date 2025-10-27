@@ -32,3 +32,13 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Application Temporary Files ###
+cookies.txt
+*.html
+!src/**/*.html
+!src/**/*.jsp
+
+### Logs ###
+logs/
+*.log

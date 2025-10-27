@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false"
+         monitoring="autodetect"
+         dynamicConfig="true">
+
+    <!-- Default cache configuration -->
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="300"
+            timeToLiveSeconds="600"
+            overflowToDisk="false"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+            statistics="true"/>
+
+    <!-- User entity cache -->
+    <cache name="com.javarush.lepeshinskij.entity.User"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="1200"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <!-- Quest entity cache -->
+    <cache name="com.javarush.lepeshinskij.entity.Quest"
+           maxElementsInMemory="500"
+           eternal="false"
+           timeToIdleSeconds="900"
+           timeToLiveSeconds="1800"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <!-- QuestStage entity cache -->
+    <cache name="com.javarush.lepeshinskij.entity.QuestStage"
+           maxElementsInMemory="2000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="1200"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <!-- QuestStageOption entity cache -->
+    <cache name="com.javarush.lepeshinskij.entity.QuestStageOption"
+           maxElementsInMemory="5000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="1200"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <!-- UserQuestProgress entity cache -->
+    <cache name="com.javarush.lepeshinskij.entity.UserQuestProgress"
+           maxElementsInMemory="2000"
+           eternal="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <!-- Query cache -->
+    <cache name="org.hibernate.cache.internal.StandardQueryCache"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <!-- Collection cache for User.quests -->
+    <cache name="com.javarush.lepeshinskij.entity.User.quests"
+           maxElementsInMemory="500"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="1200"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <!-- Collection cache for Quest.stages -->
+    <cache name="com.javarush.lepeshinskij.entity.Quest.stages"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="1200"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <!-- Collection cache for QuestStage.options -->
+    <cache name="com.javarush.lepeshinskij.entity.QuestStage.options"
+           maxElementsInMemory="2000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="1200"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <!-- Collection cache for User.questProgress -->
+    <cache name="com.javarush.lepeshinskij.entity.User.questProgress"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <!-- Collection cache for Quest.questProgress -->
+    <cache name="com.javarush.lepeshinskij.entity.Quest.questProgress"
+           maxElementsInMemory="500"
+           eternal="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <!-- Cache for frequently accessed queries -->
+    <cache name="userByUsername"
+           maxElementsInMemory="100"
+           eternal="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <cache name="userByEmail"
+           maxElementsInMemory="100"
+           eternal="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <cache name="questsByAuthor"
+           maxElementsInMemory="200"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="1200"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+    <cache name="questStagesByQuest"
+           maxElementsInMemory="500"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="1200"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="true"/>
+
+</ehcache>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.28.xsd">
+
+    <changeSet id="1.6.0-create-session-history-table" author="system">
+        <comment>Create session_history table for tracking quest playthrough history</comment>
+        
+        <createTable tableName="session_history">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_session_history"/>
+            </column>
+            
+            <column name="session_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="node_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="choice_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="visited_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="step_number" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <rollback>
+            <dropTable tableName="session_history"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.6.1-add-session-history-foreign-keys" author="system">
+        <comment>Add foreign key constraints for session_history table</comment>
+        
+        <addForeignKeyConstraint
+                baseTableName="session_history"
+                baseColumnNames="session_id"
+                constraintName="fk_session_history_session"
+                referencedTableName="user_quest_progress"
+                referencedColumnNames="id"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+        
+        <addForeignKeyConstraint
+                baseTableName="session_history"
+                baseColumnNames="node_id"
+                constraintName="fk_session_history_node"
+                referencedTableName="quest_stages"
+                referencedColumnNames="id"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+        
+        <addForeignKeyConstraint
+                baseTableName="session_history"
+                baseColumnNames="choice_id"
+                constraintName="fk_session_history_choice"
+                referencedTableName="quest_stage_options"
+                referencedColumnNames="id"
+                onDelete="SET NULL"
+                onUpdate="CASCADE"/>
+        
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="session_history" constraintName="fk_session_history_session"/>
+            <dropForeignKeyConstraint baseTableName="session_history" constraintName="fk_session_history_node"/>
+            <dropForeignKeyConstraint baseTableName="session_history" constraintName="fk_session_history_choice"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.6.2-add-session-history-indexes" author="system">
+        <comment>Add indexes to improve query performance on session_history table</comment>
+        
+        <createIndex indexName="idx_session_history_session" tableName="session_history">
+            <column name="session_id"/>
+        </createIndex>
+        
+        <createIndex indexName="idx_session_history_node" tableName="session_history">
+            <column name="node_id"/>
+        </createIndex>
+        
+        <createIndex indexName="idx_session_history_visited" tableName="session_history">
+            <column name="visited_at"/>
+        </createIndex>
+        
+        <rollback>
+            <dropIndex indexName="idx_session_history_session" tableName="session_history"/>
+            <dropIndex indexName="idx_session_history_node" tableName="session_history"/>
+            <dropIndex indexName="idx_session_history_visited" tableName="session_history"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

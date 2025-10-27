@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.28.xsd">
+
+    <changeSet id="1.7.0-add-result-type-to-options" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="quest_stage_options" columnName="result_type"/>
+            </not>
+        </preConditions>
+        <comment>Add result_type column to quest_stage_options to support WIN/LOSE logic on individual options</comment>
+        
+        <addColumn tableName="quest_stage_options">
+            <column name="result_type" type="VARCHAR(20)" defaultValue="NONE">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        
+        <rollback>
+            <dropColumn tableName="quest_stage_options" columnName="result_type"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.7.1-make-stage-description-optional" author="system">
+        <comment>Make description optional in quest_stages (can be null if only title is used)</comment>
+        
+        <dropNotNullConstraint tableName="quest_stages" columnName="description"/>
+        
+        <rollback>
+            <addNotNullConstraint tableName="quest_stages" columnName="description"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.7.2-make-target-stage-nullable" author="system">
+        <comment>Make target_stage_id nullable in quest_stage_options (for WIN/LOSE options that don't need a target)</comment>
+        
+        <dropNotNullConstraint tableName="quest_stage_options" columnName="target_stage_id"/>
+        
+        <rollback>
+            <addNotNullConstraint tableName="quest_stage_options" columnName="target_stage_id"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.7.3-add-column-comments" author="system" dbms="postgresql">
+        <comment>Add descriptive comments to columns</comment>
+        
+        <sql>
+            COMMENT ON COLUMN quest_stage_options.result_type IS 'Result type for this option: NONE (continues to target stage), WIN (player wins), LOSE (player loses)';
+            COMMENT ON COLUMN quest_stages.description IS 'Optional description field - can be null if only title is used';
+        </sql>
+        
+        <rollback>
+            <sql>
+                COMMENT ON COLUMN quest_stage_options.result_type IS NULL;
+                COMMENT ON COLUMN quest_stages.description IS NULL;
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

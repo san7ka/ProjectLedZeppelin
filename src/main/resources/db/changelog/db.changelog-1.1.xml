@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.28.xsd">
+
+    <changeSet id="1.1-insert-default-admin-user" author="system">
+        <insert tableName="users">
+            <column name="username" value="admin"/>
+            <column name="email" value="admin@questgame.com"/>
+            <column name="password" value="admin123"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.1-insert-default-quest" author="system">
+        <insert tableName="quests">
+            <column name="title" value="Приключение в лесу"/>
+            <column name="description" value="Классический квест-приключение с выбором пути"/>
+            <column name="author_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.1-insert-default-quest-stages" author="system">
+        <!-- Start stage -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="1"/>
+            <column name="stage_id" value="start"/>
+            <column name="title" value="Начало игры"/>
+            <column name="description" value="Вы стоите на развилке. Куда пойдете?"/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="1"/>
+        </insert>
+
+        <!-- Left path -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="1"/>
+            <column name="stage_id" value="left"/>
+            <column name="title" value="Левая тропинка"/>
+            <column name="description" value="Вы пошли по левой тропинке и встретили медведя. Что будете делать?"/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="2"/>
+        </insert>
+
+        <!-- Right path -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="1"/>
+            <column name="stage_id" value="right"/>
+            <column name="title" value="Правая тропинка"/>
+            <column name="description" value="Вы пошли по правой тропинке и вышли к реке. Что будете делать?"/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="3"/>
+        </insert>
+
+        <!-- Fight bear -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="1"/>
+            <column name="stage_id" value="fight"/>
+            <column name="title" value="Схватка с медведем"/>
+            <column name="description" value="Вы решили сразиться с медведем и неожиданно напугали его своей храбростью. Медведь убежал, оставив после себя банку с мёдом."/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="4"/>
+        </insert>
+
+        <!-- Run from bear -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="1"/>
+            <column name="stage_id" value="run"/>
+            <column name="title" value="Убежать от медведя"/>
+            <column name="description" value="Вы попытались убежать, но медведь оказался быстрее."/>
+            <column name="result_type" value="LOSE"/>
+            <column name="stage_index" value="5"/>
+        </insert>
+
+        <!-- Take honey -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="1"/>
+            <column name="stage_id" value="take_honey"/>
+            <column name="title" value="Взять мёд"/>
+            <column name="description" value="Вы взяли мёд и продолжили путь. Через некоторое время вы вышли к деревне и продали мёд за хорошую цену. Победа!"/>
+            <column name="result_type" value="WIN"/>
+            <column name="stage_index" value="6"/>
+        </insert>
+
+        <!-- Leave honey -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="1"/>
+            <column name="stage_id" value="leave_honey"/>
+            <column name="title" value="Оставить мёд"/>
+            <column name="description" value="Вы оставили мёд и продолжили путь. Вскоре вы заблудились в лесу без еды и воды."/>
+            <column name="result_type" value="LOSE"/>
+            <column name="stage_index" value="7"/>
+        </insert>
+
+        <!-- Swim across river -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="1"/>
+            <column name="stage_id" value="swim"/>
+            <column name="title" value="Переплыть реку"/>
+            <column name="description" value="Вы попытались переплыть реку, но течение оказалось слишком сильным. Вас унесло вниз по течению."/>
+            <column name="result_type" value="LOSE"/>
+            <column name="stage_index" value="8"/>
+        </insert>
+
+        <!-- Find bridge -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="1"/>
+            <column name="stage_id" value="bridge"/>
+            <column name="title" value="Поиск моста"/>
+            <column name="description" value="Вы пошли вдоль реки и вскоре нашли старый мост. Перейдя по нему, вы обнаружили сундук с сокровищами. Победа!"/>
+            <column name="result_type" value="WIN"/>
+            <column name="stage_index" value="9"/>
+        </insert>
+
+        <!-- Win stage -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="1"/>
+            <column name="stage_id" value="win"/>
+            <column name="title" value="Победа!"/>
+            <column name="description" value="Поздравляем! Вы успешно прошли квест!"/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="10"/>
+        </insert>
+
+        <!-- Lose stage -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="1"/>
+            <column name="stage_id" value="lose"/>
+            <column name="title" value="Поражение"/>
+            <column name="description" value="К сожалению, ваше приключение закончилось неудачей."/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="11"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.1-insert-default-quest-stage-options" author="system">
+        <!-- Start stage options -->
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="1"/>
+            <column name="option_key" value="left"/>
+            <column name="option_text" value="Пойти налево"/>
+            <column name="target_stage_id" value="left"/>
+        </insert>
+        
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="1"/>
+            <column name="option_key" value="right"/>
+            <column name="option_text" value="Пойти направо"/>
+            <column name="target_stage_id" value="right"/>
+        </insert>
+
+        <!-- Left path options -->
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="2"/>
+            <column name="option_key" value="fight"/>
+            <column name="option_text" value="Сразиться с медведем"/>
+            <column name="target_stage_id" value="fight"/>
+        </insert>
+        
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="2"/>
+            <column name="option_key" value="run"/>
+            <column name="option_text" value="Убежать"/>
+            <column name="target_stage_id" value="run"/>
+        </insert>
+
+        <!-- Fight bear options -->
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="4"/>
+            <column name="option_key" value="take_honey"/>
+            <column name="option_text" value="Взять мёд"/>
+            <column name="target_stage_id" value="take_honey"/>
+        </insert>
+        
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="4"/>
+            <column name="option_key" value="leave_honey"/>
+            <column name="option_text" value="Оставить мёд"/>
+            <column name="target_stage_id" value="leave_honey"/>
+        </insert>
+
+        <!-- Right path options -->
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="3"/>
+            <column name="option_key" value="swim"/>
+            <column name="option_text" value="Переплыть реку"/>
+            <column name="target_stage_id" value="swim"/>
+        </insert>
+        
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="3"/>
+            <column name="option_key" value="bridge"/>
+            <column name="option_text" value="Поискать мост"/>
+            <column name="target_stage_id" value="bridge"/>
+        </insert>
+
+        <!-- Win and lose stages options -->
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="10"/>
+            <column name="option_key" value="start"/>
+            <column name="option_text" value="Начать заново"/>
+            <column name="target_stage_id" value="start"/>
+        </insert>
+        
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="11"/>
+            <column name="option_key" value="start"/>
+            <column name="option_text" value="Начать заново"/>
+            <column name="target_stage_id" value="start"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

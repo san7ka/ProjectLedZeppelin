@@ -7,6 +7,11 @@
     <!-- Настройка приложения -->
     <display-name>Текстовый квест "Лесное приключение"</display-name>
 
+    <!-- Hibernate Context Listener -->
+    <listener>
+        <listener-class>com.javarush.lepeshinskij.listener.HibernateContextListener</listener-class>
+    </listener>
+
     <!-- Настройка сервлетов -->
     <servlet>
         <servlet-name>WelcomeServlet</servlet-name>
@@ -41,7 +46,81 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>QuestEditorServlet</servlet-name>
+        <url-pattern>/quest-editor/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserControllerServlet</servlet-name>
+        <servlet-class>com.javarush.lepeshinskij.controller.UserControllerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserControllerServlet</servlet-name>
+        <url-pattern>/user/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditorServlet</servlet-name>
+        <servlet-class>com.javarush.lepeshinskij.controller.EditorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditorServlet</servlet-name>
         <url-pattern>/editor</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AuthController</servlet-name>
+        <servlet-class>com.javarush.lepeshinskij.controller.AuthController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthController</servlet-name>
+        <url-pattern>/auth/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>QuestBuilderServlet</servlet-name>
+        <servlet-class>com.javarush.lepeshinskij.controller.QuestBuilderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuestBuilderServlet</servlet-name>
+        <url-pattern>/quest-builder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuestBuilderServlet</servlet-name>
+        <url-pattern>/quest-builder/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- GameActionServlet для отката и истории прохождения -->
+    <servlet>
+        <servlet-name>GameActionServlet</servlet-name>
+        <servlet-class>com.javarush.lepeshinskij.controller.GameActionServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GameActionServlet</servlet-name>
+        <url-pattern>/game-action</url-pattern>
+    </servlet-mapping>
+
+    
+    <!-- Маппинг для статических ресурсов (CSS, JS, изображения) -->
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/css/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/js/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/images/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Маппинг для корневой страницы -->
+    <servlet-mapping>
+        <servlet-name>WelcomeServlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <!-- Настройка страницы по умолчанию -->
@@ -53,4 +132,17 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+    
+    <!-- Настройка JSP для принудительной перекомпиляции -->
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://javarush.com/jsp/functions</taglib-uri>
+            <taglib-location>/WEB-INF/tld/functions.tld</taglib-location>
+        </taglib>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <url-pattern>*.jspf</url-pattern>
+            <development>true</development>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.28.xsd">
+
+    <changeSet id="1.3-create-user-statistics-table" author="system">
+        <createTable tableName="user_statistics">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="total_games" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="completed_games" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="won_games" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lost_games" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_playtime_minutes" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="best_time_minutes" type="BIGINT"/>
+            <column name="average_time_minutes" type="DOUBLE PRECISION"/>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="user_statistics"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                constraintName="fk_user_statistics_user"
+                onDelete="CASCADE"/>
+
+        <createIndex tableName="user_statistics" indexName="idx_user_statistics_user">
+            <column name="user_id"/>
+        </createIndex>
+
+        <addDefaultValue tableName="user_statistics" columnName="total_games" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="user_statistics" columnName="completed_games" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="user_statistics" columnName="won_games" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="user_statistics" columnName="lost_games" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="user_statistics" columnName="total_playtime_minutes" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="user_statistics" columnName="created_at" defaultValueDate="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="user_statistics" columnName="updated_at" defaultValueDate="CURRENT_TIMESTAMP"/>
+    </changeSet>
+
+    <changeSet id="1.3-create-user-statistics-trigger" author="system" dbms="postgresql">
+        <sql>
+            DROP TRIGGER IF EXISTS update_user_statistics_updated_at ON user_statistics;
+            CREATE TRIGGER update_user_statistics_updated_at 
+                BEFORE UPDATE ON user_statistics
+                FOR EACH ROW 
+                EXECUTE FUNCTION update_updated_at_column();
+        </sql>
+    </changeSet>
+
+    <changeSet id="1.3-initialize-existing-users-statistics" author="system">
+        <sql>
+            INSERT INTO user_statistics (user_id, total_games, completed_games, won_games, lost_games, total_playtime_minutes, created_at, updated_at)
+            SELECT 
+                u.id as user_id,
+                COALESCE(COUNT(uqp.id), 0) as total_games,
+                COALESCE(COUNT(CASE WHEN uqp.is_completed = true THEN 1 END), 0) as completed_games,
+                0 as won_games,
+                0 as lost_games,
+                COALESCE(SUM(
+                    CASE 
+                        WHEN uqp.completed_at IS NOT NULL AND uqp.started_at IS NOT NULL 
+                        THEN EXTRACT(EPOCH FROM (uqp.completed_at - uqp.started_at)) / 60 
+                        ELSE 0 
+                    END
+                ), 0) as total_playtime_minutes,
+                CURRENT_TIMESTAMP as created_at,
+                CURRENT_TIMESTAMP as updated_at
+            FROM users u
+            LEFT JOIN user_quest_progress uqp ON u.id = uqp.user_id
+            GROUP BY u.id
+            ON CONFLICT (user_id) DO UPDATE SET
+                total_games = EXCLUDED.total_games,
+                completed_games = EXCLUDED.completed_games,
+                updated_at = CURRENT_TIMESTAMP;
+        </sql>
+    </changeSet>
+
+    <changeSet id="1.3-add-start-stage-id-to-quests" author="system">
+        <addColumn tableName="quests">
+            <column name="start_stage_id" type="VARCHAR(100)"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

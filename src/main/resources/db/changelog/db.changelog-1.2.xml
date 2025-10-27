@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.28.xsd">
+
+    <changeSet id="1.2-insert-test-users" author="system">
+        <!-- Test user 1 -->
+        <insert tableName="users">
+            <column name="username" value="testuser1"/>
+            <column name="email" value="testuser1@example.com"/>
+            <column name="password" value="test123"/>
+            <column name="role" value="USER"/>
+        </insert>
+
+        <!-- Test user 2 -->
+        <insert tableName="users">
+            <column name="username" value="questmaster"/>
+            <column name="email" value="questmaster@example.com"/>
+            <column name="password" value="test123"/>
+            <column name="role" value="USER"/>
+        </insert>
+
+        <!-- Test user 3 -->
+        <insert tableName="users">
+            <column name="username" value="gamer"/>
+            <column name="email" value="gamer@example.com"/>
+            <column name="password" value="test123"/>
+            <column name="role" value="USER"/>
+        </insert>
+
+        <!-- Test user 4 -->
+        <insert tableName="users">
+            <column name="username" value="testuser_2131"/>
+            <column name="email" value="testuser_2131@test.com"/>
+            <column name="password" value="test123"/>
+            <column name="role" value="USER"/>
+        </insert>
+
+        <!-- Test user 5 -->
+        <insert tableName="users">
+            <column name="username" value="testuser_2923"/>
+            <column name="email" value="testuser_2923@test.com"/>
+            <column name="password" value="test123"/>
+            <column name="role" value="USER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.2-insert-additional-quests" author="system">
+        <!-- Quest 2: Space Adventure -->
+        <insert tableName="quests">
+            <column name="title" value="Космическое приключение"/>
+            <column name="description" value="Отправьтесь в захватывающее путешествие по галактике"/>
+            <column name="author_id" value="2"/>
+        </insert>
+
+        <!-- Quest 3: Mystery Mansion -->
+        <insert tableName="quests">
+            <column name="title" value="Таинственный особняк"/>
+            <column name="description" value="Раскройте секреты старого особняка и найдите сокровища"/>
+            <column name="author_id" value="3"/>
+        </insert>
+
+        <!-- Quest 4: Pirate Adventure -->
+        <insert tableName="quests">
+            <column name="title" value="Пиратские приключения"/>
+            <column name="description" value="Станьте капитаном пиратского корабля и найдите легендарный клад"/>
+            <column name="author_id" value="2"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.2-insert-space-quest-stages" author="system">
+        <!-- Space Quest Stages -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="2"/>
+            <column name="stage_id" value="space_start"/>
+            <column name="title" value="Космическая станция"/>
+            <column name="description" value="Вы находитесь на космической станции. Куда отправитесь?"/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="1"/>
+        </insert>
+
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="2"/>
+            <column name="stage_id" value="space_explore"/>
+            <column name="title" value="Исследование планеты"/>
+            <column name="description" value="Вы приземлились на неизвестную планету. Что будете делать?"/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="2"/>
+        </insert>
+
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="2"/>
+            <column name="stage_id" value="space_win"/>
+            <column name="title" value="Космическая победа"/>
+            <column name="description" value="Поздравляем! Вы успешно исследовали галактику и нашли новые миры!"/>
+            <column name="result_type" value="WIN"/>
+            <column name="stage_index" value="3"/>
+        </insert>
+
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="2"/>
+            <column name="stage_id" value="space_lose"/>
+            <column name="title" value="Космическая неудача"/>
+            <column name="description" value="К сожалению, ваше космическое путешествие закончилось неудачей."/>
+            <column name="result_type" value="LOSE"/>
+            <column name="stage_index" value="4"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.2-insert-space-quest-options" author="system">
+        <!-- Space Quest Options -->
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="12"/>
+            <column name="option_key" value="explore"/>
+            <column name="option_text" value="Исследовать планету"/>
+            <column name="target_stage_id" value="space_explore"/>
+        </insert>
+
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="12"/>
+            <column name="option_key" value="stay"/>
+            <column name="option_text" value="Остаться на станции"/>
+            <column name="target_stage_id" value="space_lose"/>
+        </insert>
+
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="13"/>
+            <column name="option_key" value="continue"/>
+            <column name="option_text" value="Продолжить исследование"/>
+            <column name="target_stage_id" value="space_win"/>
+        </insert>
+
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="13"/>
+            <column name="option_key" value="return"/>
+            <column name="option_text" value="Вернуться на станцию"/>
+            <column name="target_stage_id" value="space_lose"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.2-insert-mansion-quest-stages" author="system">
+        <!-- Mansion Quest Stages -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="3"/>
+            <column name="stage_id" value="mansion_start"/>
+            <column name="title" value="У входа в особняк"/>
+            <column name="description" value="Вы стоите перед старым особняком. Дверь приоткрыта. Что будете делать?"/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="1"/>
+        </insert>
+
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="3"/>
+            <column name="stage_id" value="mansion_hall"/>
+            <column name="title" value="В холле особняка"/>
+            <column name="description" value="Вы вошли в холл. Видите лестницу и несколько дверей. Куда пойдете?"/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="2"/>
+        </insert>
+
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="3"/>
+            <column name="stage_id" value="mansion_treasure"/>
+            <column name="title" value="Сокровищница"/>
+            <column name="description" value="Вы нашли тайную комнату с сокровищами! Поздравляем с победой!"/>
+            <column name="result_type" value="WIN"/>
+            <column name="stage_index" value="3"/>
+        </insert>
+
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="3"/>
+            <column name="stage_id" value="mansion_trap"/>
+            <column name="title" value="Ловушка"/>
+            <column name="description" value="Вы попали в ловушку! К сожалению, ваше приключение закончилось неудачей."/>
+            <column name="result_type" value="LOSE"/>
+            <column name="stage_index" value="4"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.2-insert-mansion-quest-options" author="system">
+        <!-- Mansion Quest Options -->
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="16"/>
+            <column name="option_key" value="enter"/>
+            <column name="option_text" value="Войти в особняк"/>
+            <column name="target_stage_id" value="mansion_hall"/>
+        </insert>
+
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="16"/>
+            <column name="option_key" value="leave"/>
+            <column name="option_text" value="Уйти"/>
+            <column name="target_stage_id" value="mansion_trap"/>
+        </insert>
+
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="17"/>
+            <column name="option_key" value="upstairs"/>
+            <column name="option_text" value="Подняться наверх"/>
+            <column name="target_stage_id" value="mansion_treasure"/>
+        </insert>
+
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="17"/>
+            <column name="option_key" value="doors"/>
+            <column name="option_text" value="Исследовать комнаты"/>
+            <column name="target_stage_id" value="mansion_trap"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.2-insert-pirate-quest-stages" author="system">
+        <!-- Pirate Quest Stages -->
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="4"/>
+            <column name="stage_id" value="pirate_start"/>
+            <column name="title" value="На пиратском корабле"/>
+            <column name="description" value="Вы капитан пиратского корабля. Видите остров на горизонте. Что будете делать?"/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="1"/>
+        </insert>
+
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="4"/>
+            <column name="stage_id" value="pirate_island"/>
+            <column name="title" value="На острове"/>
+            <column name="description" value="Вы высадились на остров. Видите пещеру и джунгли. Куда пойдете?"/>
+            <column name="result_type" value="NONE"/>
+            <column name="stage_index" value="2"/>
+        </insert>
+
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="4"/>
+            <column name="stage_id" value="pirate_treasure"/>
+            <column name="title" value="Сокровища найдены!"/>
+            <column name="description" value="Вы нашли легендарный клад! Поздравляем с победой!"/>
+            <column name="result_type" value="WIN"/>
+            <column name="stage_index" value="3"/>
+        </insert>
+
+        <insert tableName="quest_stages">
+            <column name="quest_id" value="4"/>
+            <column name="stage_id" value="pirate_lose"/>
+            <column name="title" value="Пиратская неудача"/>
+            <column name="description" value="К сожалению, ваше пиратское приключение закончилось неудачей."/>
+            <column name="result_type" value="LOSE"/>
+            <column name="stage_index" value="4"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.2-insert-pirate-quest-options" author="system">
+        <!-- Pirate Quest Options -->
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="20"/>
+            <column name="option_key" value="island"/>
+            <column name="option_text" value="Плыть к острову"/>
+            <column name="target_stage_id" value="pirate_island"/>
+        </insert>
+
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="20"/>
+            <column name="option_key" value="continue"/>
+            <column name="option_text" value="Продолжить плавание"/>
+            <column name="target_stage_id" value="pirate_lose"/>
+        </insert>
+
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="21"/>
+            <column name="option_key" value="cave"/>
+            <column name="option_text" value="Исследовать пещеру"/>
+            <column name="target_stage_id" value="pirate_treasure"/>
+        </insert>
+
+        <insert tableName="quest_stage_options">
+            <column name="stage_id" value="21"/>
+            <column name="option_key" value="jungle"/>
+            <column name="option_text" value="Идти в джунгли"/>
+            <column name="target_stage_id" value="pirate_lose"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.2-insert-test-game-progress" author="system">
+        <!-- Test game progress for user 2 -->
+        <insert tableName="user_quest_progress">
+            <column name="user_id" value="2"/>
+            <column name="quest_id" value="1"/>
+            <column name="current_stage_id" value="start"/>
+            <column name="is_completed" value="false"/>
+            <column name="started_at" valueDate="2024-01-15T10:00:00"/>
+        </insert>
+
+        <!-- Completed game for user 3 -->
+        <insert tableName="user_quest_progress">
+            <column name="user_id" value="3"/>
+            <column name="quest_id" value="1"/>
+            <column name="current_stage_id" value="take_honey"/>
+            <column name="is_completed" value="true"/>
+            <column name="started_at" valueDate="2024-01-14T15:30:00"/>
+            <column name="completed_at" valueDate="2024-01-14T16:00:00"/>
+        </insert>
+
+        <!-- Another completed game for user 3 -->
+        <insert tableName="user_quest_progress">
+            <column name="user_id" value="3"/>
+            <column name="quest_id" value="2"/>
+            <column name="current_stage_id" value="space_win"/>
+            <column name="is_completed" value="true"/>
+            <column name="started_at" valueDate="2024-01-13T12:00:00"/>
+            <column name="completed_at" valueDate="2024-01-13T12:45:00"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
